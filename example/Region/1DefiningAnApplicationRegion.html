@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../../lib/jquery.js" type="text/javascript"></script>
+    <script src="../../lib/underscore.js" type="text/javascript"></script>
+    <script src="../../lib/backbone.js" type="text/javascript"></script>
+    <script src="../../lib/backbone.marionette.js" type="text/javascript"></script>
+</head>
+<body id="body">
+
+</body>
+<script type="text/javascript">
+
+    var App = Marionette.Application.extend({
+        initialize: function (options) {
+            console.log('initialize ', options)
+        }
+    });
+
+    var app = new App();
+
+
+    app.on('before:start', function (options) {
+        console.log('before start event ', options);
+    });
+
+    app.on('start', function (options) {
+        console.log('start ', options);
+    });
+
+    /**
+     * You can add regions to your applications by calling the addRegions method on
+     * your application instance. This method expects a single hash parameter, with
+     * named regions and either jQuery selectors or Region objects. You may
+     * call this method as many times as you like, and it will continue adding regions
+     * to the app.
+     *
+     * 在应用例化后，可以使用 addRegions 为其添加 regions
+     * 该方法接收一个 hash 参数，使用jQuery选择器或者 region 对象定义 region.
+     * 可以多次调用该方法，给应用持续添加region
+     */
+
+    app.addRegions({
+        mainRegion: "#main-content",
+        navigationRegion: "#navigation"
+    });
+
+    /**
+     * As soon as you call addRegions, your regions are available on your
+     * app object. In the above, example MyApp.mainRegion and MyApp.navigationRegion
+     * would be available for use immediately.
+     *
+     * 当你调用 addRegions 方法后，应用对象上的 regions 立即可用。
+     * 上文中的例子中, <code>app.mainRegion</code> 与 <code>app.navigationRegion</code>
+     * 立马可以使用
+     *
+     * If you specify the same region name twice, the last one in wins.
+     *
+     * 如果你定义一个重名的 region，将以最后一次定义为准
+     *
+     * You can also add regions via LayoutViews:
+     *
+     * 你也可以通过 <code>LayoutViews</code> 添加 regions
+     *
+     * */
+
+    var AppLayoutView = Marionette.LayoutView.extend({
+        template: "#layout-view-template",
+
+        regions: {
+            menu: "#menu",
+            content: "#content"
+        }
+    });
+    var layoutView = new AppLayoutView();
+    layoutView.render();
+    // layoutView.menu.show(new MenuView());
+    // layoutView.content.show(new MainContentView());
+
+
+    app.start({
+        item: 'a'
+    });
+
+</script>
+</html>
